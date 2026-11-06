@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-tinta: #0e1b2c;
+  --color-tinta-2: #17283e;
+  --color-papel: #f2f4f7;
+  --color-linea: #dde2e9;
+  --color-texto: #1b2735;
+  --color-suave: #5b6878;
+  --color-azul: #2b4bea;
+  --color-azul-claro: #e6ebfd;
+  --color-verde: #0b7a5c;
+  --color-verde-claro: #ddf3ec;
+  --color-ambar: #9a5b00;
+  --color-ambar-claro: #fcefd6;
+  --color-rojo: #b3261e;
+  --color-rojo-claro: #fbe4e2;
+}
+
+html, body, #root { height: 100%; }
+body { background: var(--color-papel); color: var(--color-texto); font-family: var(--font-sans); font-size: 14px; }
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+:focus-visible { outline: 2px solid var(--color-azul); outline-offset: 2px; }
+input, select, textarea { font: inherit; }
+
+/* JSON */
+.json { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; white-space: pre; tab-size: 2; }
+.json .k { color: #8fb4ff; }
+.json .s { color: #9be3c4; }
+.json .n { color: #ffcf8a; }
+.json .b { color: #ff9fb0; }
+.json .z { color: #8d99aa; }
+
+@keyframes entra { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.drawer { animation: entra .18s ease-out; }
+@keyframes pulso { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+.pulso { animation: pulso 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .drawer, .pulso { animation: none; } }
