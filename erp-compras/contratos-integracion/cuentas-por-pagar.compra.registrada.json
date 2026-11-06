@@ -1,0 +1,57 @@
+{
+  "direccion": "Compras → Cuentas por Pagar",
+  "endpoint_destino": "POST {CXP_URL}/compras/eventos",
+  "o_consulta_pull": "GET /api/v1/integracion/eventos?destino=cuentas-por-pagar&estado=P",
+  "envia": {
+    "version": "1.0",
+    "tipo": "compra.registrada",
+    "evento_id": "1dfb2729-f4f7-41be-a9c2-4a1f584e89ee",
+    "emitido_en": "2026-11-06T14:23:58+00:00",
+    "empresa": {
+      "id": "emp-prueba",
+      "razon_social": "Empresa de Prueba UNSA S.A.C.",
+      "ruc": "20123456789",
+      "es_prueba": true
+    },
+    "comprobante": {
+      "id": "eca9e73d-2033-4a05-8235-b391a9b3ae6f",
+      "numero": "00001234",
+      "tipo_comprobante": "01",
+      "serie": "F002",
+      "clave_documental": "01-F002-00001234",
+      "periodo": "202611",
+      "fecha_emision": "2026-11-06",
+      "fecha_vencimiento": "2026-12-06",
+      "moneda": "PEN",
+      "tipo_cambio": null,
+      "base_imponible": "10350.00",
+      "igv": "1863.00",
+      "no_gravado": "0.00",
+      "total": "12213.00",
+      "clasificacion": {
+        "descripcion": "Activos fijos",
+        "codigo": "2"
+      },
+      "estado": "R",
+      "registrado_por": "T-001"
+    },
+    "proveedor": {
+      "id": "fad3ef4c-fc88-4e2d-83fc-8a8497eb95f2",
+      "tipo_documento": "6",
+      "numero_documento": "20512345678",
+      "nombre": "Tecnología y Equipos del Sur S.A.C."
+    },
+    "orden_compra": {
+      "id": "51b3793a-7011-4ee3-bcf8-9e651c175a60",
+      "numero": "OC-000001"
+    }
+  },
+  "responde": {
+    "aceptado": true,
+    "cuenta_por_pagar_id": "CXP-ECA9E73D",
+    "estado_pago": "PENDIENTE",
+    "saldo": "12213.00",
+    "simulado": true,
+    "vencimiento": "2026-12-06"
+  }
+}

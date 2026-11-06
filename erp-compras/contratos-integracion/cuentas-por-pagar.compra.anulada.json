@@ -1,0 +1,25 @@
+{
+  "direccion": "Compras → Cuentas por Pagar",
+  "endpoint_destino": "POST {CXP_URL}/compras/eventos",
+  "envia": {
+    "version": "1.0",
+    "tipo": "compra.anulada",
+    "evento_id": "1f28c287-19b7-4145-9103-a306ae1d8ccf",
+    "emitido_en": "2026-11-06T14:23:58+00:00",
+    "empresa": {
+      "id": "emp-prueba",
+      "razon_social": "Empresa de Prueba UNSA S.A.C.",
+      "ruc": "20123456789",
+      "es_prueba": true
+    },
+    "comprobante": {
+      "id": "aad272ac-af00-4bee-bd03-6cafb768a695",
+      "clave_documental": "01-F900-00000010",
+      "periodo": "202611",
+      "total": "1180.00",
+      "estado": "A"
+    },
+    "motivo": "Registrado dos veces",
+    "anulado_por": "T-001"
+  }
+}

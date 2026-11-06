@@ -1,0 +1,47 @@
+{
+  "direccion": "Compras → Activos Fijos",
+  "endpoint_destino": "POST {ACTIVOS_URL}/compras/eventos",
+  "envia": {
+    "version": "1.0",
+    "tipo": "orden.aprobada",
+    "evento_id": "75da067f-72b7-4411-856c-23ea0ada908e",
+    "emitido_en": "2026-11-06T14:23:58+00:00",
+    "empresa": {
+      "id": "emp-prueba",
+      "razon_social": "Empresa de Prueba UNSA S.A.C.",
+      "ruc": "20123456789",
+      "es_prueba": true
+    },
+    "orden": {
+      "id": "51b3793a-7011-4ee3-bcf8-9e651c175a60",
+      "numero": "OC-000001",
+      "fecha": "2026-11-06",
+      "moneda": "PEN",
+      "aprobada_en": "2026-11-06T14:23:58.548859+00:00",
+      "aprobada_por": "T-003",
+      "valor_estimado_activos": "10350.00"
+    },
+    "proveedor": {
+      "id": "fad3ef4c-fc88-4e2d-83fc-8a8497eb95f2",
+      "tipo_documento": "6",
+      "numero_documento": "20512345678",
+      "nombre": "Tecnología y Equipos del Sur S.A.C."
+    },
+    "lineas_activo": [
+      {
+        "item": 1,
+        "articulo_id": "6cc99d13-bf93-41b4-8ee1-54a9d9a08af7",
+        "descripcion": "Laptop 14\" Core i7 16 GB",
+        "unidad": "NIU",
+        "cantidad": "3",
+        "precio_unitario": "3450.0000",
+        "valor_linea": "10350.00"
+      }
+    ]
+  },
+  "responde": {
+    "aceptado": true,
+    "reserva_alta_id": "AFR-51B3793A",
+    "simulado": true
+  }
+}

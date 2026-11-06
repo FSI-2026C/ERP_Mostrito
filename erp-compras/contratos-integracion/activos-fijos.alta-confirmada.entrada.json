@@ -1,0 +1,18 @@
+{
+  "direccion": "Activos Fijos → Compras",
+  "endpoint_compras": "POST /api/v1/integracion/activos-fijos/alta-confirmada",
+  "envia": {
+    "comprobante_id": "eca9e73d-2033-4a05-8235-b391a9b3ae6f",
+    "activos": [
+      "AF-ECA9E7-001"
+    ],
+    "estado": "ALTA_CONTABILIZADA",
+    "fecha_alta": "2026-11-06"
+  },
+  "responde": {
+    "estado": "ALTA_CONTABILIZADA",
+    "referencias": [
+      "AF-ECA9E7-001"
+    ]
+  }
+}

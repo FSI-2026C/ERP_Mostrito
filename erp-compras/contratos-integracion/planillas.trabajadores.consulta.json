@@ -1,0 +1,42 @@
+{
+  "direccion": "Planillas → Compras (solo lectura)",
+  "endpoint_origen": "GET {PLANILLAS_URL}/trabajadores",
+  "responde": [
+    {
+      "trabajador_id": "T-001",
+      "nombres": "Ana Quispe Rojas",
+      "area": "Logística",
+      "cargo": "Compradora",
+      "es_aprobador": false,
+      "estado": "ACTIVO",
+      "fecha_cese": null
+    },
+    {
+      "trabajador_id": "T-002",
+      "nombres": "Luis Mamani Flores",
+      "area": "Sistemas",
+      "cargo": "Analista de soporte",
+      "es_aprobador": false,
+      "estado": "ACTIVO",
+      "fecha_cese": null
+    },
+    {
+      "trabajador_id": "T-003",
+      "nombres": "Carla Huanca Díaz",
+      "area": "Gerencia",
+      "cargo": "Gerente administrativa",
+      "es_aprobador": true,
+      "estado": "ACTIVO",
+      "fecha_cese": null
+    },
+    {
+      "trabajador_id": "T-004",
+      "nombres": "Jorge Ccori Mendoza",
+      "area": "Almacén",
+      "cargo": "Jefe de almacén",
+      "es_aprobador": false,
+      "estado": "CESADO",
+      "fecha_cese": "2026-09-30"
+    }
+  ]
+}

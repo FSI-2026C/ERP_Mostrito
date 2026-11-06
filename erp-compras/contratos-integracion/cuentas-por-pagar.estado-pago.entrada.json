@@ -1,0 +1,16 @@
+{
+  "direccion": "Cuentas por Pagar → Compras",
+  "endpoint_compras": "POST /api/v1/integracion/cxp/estado-pago",
+  "envia": {
+    "comprobante_id": "eca9e73d-2033-4a05-8235-b391a9b3ae6f",
+    "cuenta_por_pagar_id": "CXP-ECA9E73D",
+    "estado_pago": "PARCIAL",
+    "saldo": "6106.50",
+    "fecha_ultimo_pago": "2026-11-06"
+  },
+  "responde": {
+    "estado_pago": "PARCIAL",
+    "cuenta_por_pagar": "CXP-ECA9E73D",
+    "saldo_pendiente": "6106.50"
+  }
+}
