@@ -9,14 +9,28 @@ import Comprobantes from "./pages/Comprobantes";
 import Registro from "./pages/Registro";
 import Integracion from "./pages/Integracion";
 
+/* Iconos de trazo simple (24×24) */
+const I: Record<string, string> = {
+  resumen: "M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-3H4zM14 7h6V4h-6z",
+  solicitudes: "M8 4h8l3 3v13H5V4h3M9 11h6M9 15h4",
+  ordenes: "M4 6h2l2 10h10l2-7H7M10 20h.01M17 20h.01",
+  comprobantes: "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6",
+  registro: "M4 5h16v14H4zM4 10h16M10 10v9",
+  proveedores: "M3 20V9l5-3v4l5-3v4l5-3v12zM7 16h2M12 16h2",
+  integracion: "M7 7h4v4H7zM13 13h4v4h-4zM11 9h4v4M9 11v4h4",
+};
+const Icono = ({ d }: { d: string }) => (
+  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] shrink-0" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>
+);
+
 const RUTAS = [
-  { id: "resumen", t: "Resumen", C: Resumen },
-  { id: "proveedores", t: "Proveedores", C: Proveedores },
-  { id: "solicitudes", t: "Solicitudes", C: Solicitudes },
-  { id: "ordenes", t: "Órdenes de compra", C: Ordenes },
-  { id: "comprobantes", t: "Comprobantes", C: Comprobantes },
-  { id: "registro", t: "Registro de Compras 8.1", C: Registro },
-  { id: "integracion", t: "Integración con módulos", C: Integracion },
+  { id: "resumen", t: "Resumen", C: Resumen, g: "" },
+  { id: "solicitudes", t: "Solicitudes", C: Solicitudes, g: "Flujo de compra" },
+  { id: "ordenes", t: "Órdenes de compra", C: Ordenes, g: "Flujo de compra" },
+  { id: "comprobantes", t: "Comprobantes", C: Comprobantes, g: "Flujo de compra" },
+  { id: "registro", t: "Registro de Compras 8.1", C: Registro, g: "Reportes y datos" },
+  { id: "proveedores", t: "Proveedores", C: Proveedores, g: "Reportes y datos" },
+  { id: "integracion", t: "Integración con módulos", C: Integracion, g: "Reportes y datos" },
 ];
 
 const VECINOS = [
@@ -59,12 +73,14 @@ export default function App() {
             <div className="text-[19px] font-semibold tracking-[-0.01em] text-white">Compras</div>
             <div className="text-[12.5px] text-white/50">ERP académico · Tribu Egresos</div>
           </div>
-          <ul className="flex-1 px-2">
-            {RUTAS.map((r) => (
+          <ul className="flex-1 overflow-y-auto px-2">
+            {RUTAS.map((r, i) => (
               <li key={r.id}>
+                {r.g && r.g !== RUTAS[i - 1]?.g && <div className="px-3 pb-1.5 pt-4 text-[12px] text-white/40">{r.g}</div>}
                 <a href={`#${r.id}`} aria-current={r.id === actual.id ? "page" : undefined}
-                  className={cx("mb-0.5 block rounded-md px-3 py-2 transition-colors", r.id === actual.id ? "bg-white/12 font-medium text-white" : "hover:bg-white/6 hover:text-white")}>
-                  {r.t}
+                  className={cx("relative mb-0.5 flex items-center gap-2.5 rounded-md px-3 py-2 transition-colors",
+                    r.id === actual.id ? "bg-white/12 font-medium text-white before:absolute before:-left-2 before:top-2 before:bottom-2 before:w-[3px] before:rounded-r before:bg-[#7c93ff]" : "hover:bg-white/6 hover:text-white")}>
+                  <Icono d={I[r.id]} />{r.t}
                 </a>
               </li>
             ))}
@@ -84,6 +100,7 @@ export default function App() {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex items-center justify-end gap-4 border-b border-linea bg-white px-6 py-2.5">
+            <span className="mr-auto text-[13px] text-suave">{actual.g ? `${actual.g} / ` : ""}<span className="font-medium text-texto">{actual.t}</span></span>
             {emp?.es_prueba && <span className="rounded bg-ambar-claro px-2 py-0.5 text-[12px] font-medium text-ambar">Empresa de prueba: se puede borrar y recargar</span>}
             <label className="flex items-center gap-2 text-[13px] text-suave">Empresa
               <select className="h-8 rounded-md border border-linea bg-white px-2 text-texto" value={empresa} onChange={(e) => setEmpresa(e.target.value)}>

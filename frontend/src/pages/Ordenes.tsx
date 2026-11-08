@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { api, ESTADO_ORDEN, fecha, money, qty, hoy } from "../api";
 import { Btn, Chip, Drawer, ErrorBox, Field, Input, Select, Table, Td, Title, tonoOrden, useLoad, useToast } from "../ui";
+import { DiagramaFlujo, comprobanteDe, etapaDe } from "../flujo";
 import OrdenForm from "./OrdenForm";
 
-const PASOS = ["BOR", "PEN", "APR", "ENV", "REC", "FAC"];
-
-export default function Ordenes({ ir }: { ir: (r: string, x?: any) => void }) {
+export default function Ordenes({ ir, nav }: { ir: (r: string, x?: any) => void; nav?: any }) {
   const toast = useToast();
   const { data, error, reload } = useLoad(async () => {
-    const [ord, art, prov] = await Promise.all([api<any[]>("/ordenes"), api<any[]>("/articulos"), api<any[]>("/proveedores")]);
-    return { ord, art, prov };
+    const [ord, art, prov, cmp] = await Promise.all([api<any[]>("/ordenes"), api<any[]>("/articulos"), api<any[]>("/proveedores"), api<any[]>("/comprobantes")]);
+    return { ord, art, prov, cmp };
   }, []);
   const [nueva, setNueva] = useState(false);
-  const [selId, setSelId] = useState<string | null>(null);
+  const [selId, setSelId] = useState<string | null>(nav?.orden ?? null);
   const [err, setErr] = useState<unknown>(null);
   const [rec, setRec] = useState({ recepcion_ext: "", tipo: "T", fecha: hoy() });
   const sel = data?.ord.find((o) => o.id === selId);
@@ -45,13 +44,8 @@ export default function Ordenes({ ir }: { ir: (r: string, x?: any) => void }) {
       {sel && (
         <Drawer title={`Orden ${sel.numero}`} wide onClose={() => setSelId(null)}>
           <ErrorBox e={err} />
-          <ol className="mb-5 flex overflow-hidden rounded-lg border border-linea bg-white text-[13px]" aria-label="Avance de la orden">
-            {PASOS.map((p, i) => {
-              const hecho = sel.estado !== "ANU" && PASOS.indexOf(sel.estado) >= i;
-              return <li key={p} className={`flex-1 px-3 py-2 ${i ? "border-l border-linea" : ""} ${hecho ? "bg-azul-claro font-medium text-azul" : "text-suave"}`}>{ESTADO_ORDEN[p]}</li>;
-            })}
-          </ol>
-          {sel.estado === "ANU" && <p className="mb-4"><Chip tono="rojo">Anulada</Chip></p>}
+          <DiagramaFlujo key={sel.id + sel.estado} actual={etapaDe({ orden: sel, cmp: comprobanteDe(sel, data!.cmp) })}
+            soloServicios={sel.lineas.every((l: any) => l.es_servicio)} className="mb-5" />
           <dl className="mb-5 grid grid-cols-3 gap-4">
             <div><dt className="text-suave">Proveedor</dt><dd className="font-medium">{sel.proveedor}</dd></div>
             <div><dt className="text-suave">Creada por</dt><dd>{sel.creado_por}</dd></div>

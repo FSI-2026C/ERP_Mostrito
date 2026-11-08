@@ -38,3 +38,42 @@ input, select, textarea { font: inherit; }
 @keyframes pulso { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
 .pulso { animation: pulso 1.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .drawer, .pulso { animation: none; } }
+
+/* Diagrama de flujo */
+.flujo { font-family: var(--font-sans); }
+.flujo .fl-fase path { fill: none; stroke: var(--color-linea); stroke-width: 1.5; }
+.flujo .fl-fase text { fill: var(--color-suave); font-size: 12.5px; font-weight: 500; }
+.flujo .fl-on, .flujo .fl-off, .flujo .fl-alt, .flujo .fl-anu { fill: none; stroke-width: 1.75; }
+.flujo .fl-on { stroke: var(--color-azul); stroke-width: 2.25; }
+.flujo .fl-off { stroke: #b9c2ce; }
+.flujo .fl-alt { stroke: #b9c2ce; stroke-dasharray: 4 4; }
+.flujo .fl-anu { stroke: color-mix(in srgb, var(--color-rojo) 45%, white); stroke-dasharray: 4 4; }
+.flujo .fl-punta-linea { fill: #b9c2ce; }
+.flujo .fl-punta-azul { fill: var(--color-azul); }
+.flujo .fl-punta-rojo { fill: color-mix(in srgb, var(--color-rojo) 55%, white); }
+.flujo .fl-nota { fill: var(--color-suave); font-size: 11.5px; }
+
+.flujo .fl-nodo { cursor: pointer; outline: none; }
+.flujo .fl-caja { fill: white; stroke: var(--color-linea); stroke-width: 1.5; transition: fill .15s, stroke .15s; }
+.flujo .fl-t { fill: var(--color-texto); font-size: 13px; font-weight: 600; pointer-events: none; }
+.flujo .fl-n { fill: var(--color-texto); font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; pointer-events: none; }
+.flujo .fl-nodo:hover .fl-caja { stroke: var(--color-azul); }
+.flujo .fl-nodo:focus-visible .fl-caja { stroke: var(--color-azul); stroke-width: 2.5; }
+.flujo .fl-foco .fl-caja { stroke: var(--color-texto); stroke-width: 2; }
+
+.flujo .fl-futuro .fl-t { fill: var(--color-suave); font-weight: 500; }
+.flujo .fl-hecho .fl-caja { fill: var(--color-azul-claro); stroke: color-mix(in srgb, var(--color-azul) 35%, white); }
+.flujo .fl-hecho .fl-t { fill: var(--color-azul); }
+.flujo .fl-check { fill: none; stroke: var(--color-azul); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.flujo .fl-omitido .fl-caja { fill: white; stroke-dasharray: 4 3; }
+.flujo .fl-omitido .fl-t { fill: var(--color-suave); }
+.flujo .fl-actual .fl-caja { fill: var(--color-azul); stroke: var(--color-azul); }
+.flujo .fl-actual .fl-t, .flujo .fl-actual .fl-n { fill: white; }
+.flujo .fl-halo { fill: none; stroke: var(--color-azul); stroke-opacity: .35; stroke-width: 2; animation: pulso 1.8s ease-in-out infinite; }
+.flujo .fl-esanu .fl-caja { fill: #fff7f6; stroke: color-mix(in srgb, var(--color-rojo) 30%, white); }
+.flujo .fl-esanu .fl-t { fill: var(--color-rojo); }
+.flujo .fl-anulado .fl-caja { fill: var(--color-rojo); stroke: var(--color-rojo); }
+.flujo .fl-anulado .fl-t { fill: white; }
+.flujo .fl-vacio .fl-n { fill: var(--color-suave); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .flujo .fl-halo { animation: none; } }
+.flujo .fl-nota-rojo { fill: var(--color-rojo); opacity: .8; }

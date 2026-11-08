@@ -1,6 +1,7 @@
 import { api, session } from "../api";
-import { Btn, Chip, ErrorBox, Title, useLoad, useToast, tonoEvento, nombreEvento, cx } from "../ui";
+import { Btn, Chip, ErrorBox, Title, useLoad, useToast, tonoEvento, nombreEvento } from "../ui";
 import { useState } from "react";
+import { DiagramaFlujo, comprobanteDe, etapaDe, ordenDe, type Etapa } from "../flujo";
 
 export default function Resumen({ ir }: { ir: (r: string, x?: any) => void }) {
   const toast = useToast();
@@ -16,17 +17,14 @@ export default function Resumen({ ir }: { ir: (r: string, x?: any) => void }) {
   const n = (e: string) => ord.filter((o) => o.estado === e).length;
   const vigentes = cmp.filter((c) => c.estado === "R");
   const pagados = vigentes.filter((c) => c.pago.estado_pago === "PAGADO").length;
-  const etapas = [
-    { t: "Solicitudes pendientes", v: sol.filter((s) => s.estado === "PEN").length, a: "solicitudes" },
-    { t: "Órdenes en borrador", v: n("BOR"), a: "ordenes" },
-    { t: "Por aprobar", v: n("PEN"), a: "ordenes" },
-    { t: "Aprobadas o enviadas", v: n("APR") + n("ENV"), a: "ordenes" },
-    { t: "Recibidas sin factura", v: n("REC"), a: "ordenes" },
-    { t: "Comprobantes registrados", v: vigentes.length, a: "comprobantes" },
-    { t: "Pagados en Cuentas por Pagar", v: pagados, a: "comprobantes" },
-  ];
+  // Cada caso es una solicitud (con su orden vigente) o una orden emitida sin solicitud.
+  const conteos: Partial<Record<Etapa, number>> = {};
+  const sumar = (e: Etapa) => { conteos[e] = (conteos[e] ?? 0) + 1; };
+  sol.forEach((s) => { const o = ordenDe(s, ord); sumar(etapaDe({ sol: s, orden: o, cmp: comprobanteDe(o, cmp) })); });
+  ord.filter((o) => !o.solicitud_id).forEach((o) => sumar(etapaDe({ orden: o, cmp: comprobanteDe(o, cmp) })));
+  const destino = (e: Etapa) => (e === "SOL" || e === "SOL_ANU" ? "solicitudes" : e === "FAC" || e === "PAG" ? "comprobantes" : "ordenes");
+  const casos = Object.values(conteos).reduce((a, b) => a + (b ?? 0), 0);
   const pendientes = mods.reduce((s, m) => s + m.pendientes + m.fallidos, 0);
-  const max = Math.max(1, ...etapas.map((e) => e.v));
   const atencion: { t: string; a: string; tono: string }[] = [];
   if (n("PEN")) atencion.push({ t: `${n("PEN")} orden(es) esperan aprobación`, a: "ordenes", tono: "ambar" });
   if (n("REC")) atencion.push({ t: `${n("REC")} orden(es) recibidas esperan su comprobante`, a: "comprobantes", tono: "azul" });
@@ -43,19 +41,14 @@ export default function Resumen({ ir }: { ir: (r: string, x?: any) => void }) {
         right={<Btn onClick={demo}>Recargar datos de ejemplo</Btn>}>Del pedido al pago</Title>
       <ErrorBox e={err} />
 
-      <ol className="mb-6 grid grid-cols-7 gap-0 overflow-hidden rounded-lg border border-linea bg-white">
-        {etapas.map((e, i) => (
-          <li key={e.t} className={cx("relative", i > 0 && "border-l border-linea")}>
-            <button onClick={() => ir(e.a)} className="flex h-full w-full flex-col justify-between px-3.5 py-3 text-left hover:bg-papel">
-              <span className="min-h-[34px] text-[13px] leading-snug text-suave">{e.t}</span>
-              <span className="mt-3 block">
-                <span className="num block text-[28px] font-semibold leading-none">{e.v}</span>
-                <span className="mt-2 block h-1.5 rounded-full bg-black/5"><span className="block h-1.5 rounded-full bg-azul" style={{ width: `${(e.v / max) * 100}%` }} /></span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ol>
+      <section className="mb-6">
+        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-semibold">Dónde está cada compra</h2>
+          <span className="num text-[13px] text-suave">{casos} caso(s) · {vigentes.length} comprobante(s), {pagados} pagado(s)</span>
+        </div>
+        <DiagramaFlujo conteos={conteos}
+          extra={(e) => <Btn small onClick={() => ir(destino(e))}>Ir a {destino(e) === "solicitudes" ? "Solicitudes" : destino(e) === "ordenes" ? "Órdenes de compra" : "Comprobantes"}</Btn>} />
+      </section>
 
       <div className="grid grid-cols-5 gap-5">
         <section className="col-span-3 rounded-lg border border-linea bg-white p-4">
